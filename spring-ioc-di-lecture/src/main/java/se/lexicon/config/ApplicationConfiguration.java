@@ -4,17 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import se.lexicon.dao.StudentDAO;
-import se.lexicon.dao.StudentDAOImpl;
-import se.lexicon.dao.sequencer.Sequencers;
-import se.lexicon.dao.sequencer.SequencersImpl;
-import se.lexicon.service.StudentService;
-import se.lexicon.service.StudentServiceImpl;
 
 import java.util.Scanner;
-
 @Configuration
+@ComponentScan("se.lexicon")
 public class ApplicationConfiguration {
 
     @Bean
@@ -31,29 +26,29 @@ public class ApplicationConfiguration {
         return objectMapper;
     }
 
-    @Bean
-    public Sequencers sequencers(){
-        return new SequencersImpl();
-    }
-
-
-    @Bean
-    public StudentDAO studentDAO(){
-        // StudentDAO needs a dependency of a Sequencer.
-        return new StudentDAOImpl(sequencers());
-    }
-
-    @Bean
-    public StudentService studentService(){
-        //Constructor injection
-//        return new StudentServiceImpl(studentDAO());
-
-        //Setter Injection
-        StudentServiceImpl studentService = new StudentServiceImpl();
-
-        studentService.setStudentDAO(studentDAO());
-
-        return studentService;
-    }
+//    @Bean
+//    public Sequencers sequencers(){
+//        return new SequencersImpl();
+//    }
+//
+//
+//    @Bean
+//    public StudentDAO studentDAO(){
+//        // StudentDAO needs a dependency of a Sequencer.
+//        return new StudentDAOImpl(sequencers());
+//    }
+//
+//    @Bean
+//    public StudentService studentService(){
+//        //Constructor injection
+////        return new StudentServiceImpl(studentDAO());
+//
+//        //Setter Injection
+//        StudentServiceImpl studentService = new StudentServiceImpl();
+//
+//        studentService.setStudentDAO(studentDAO());
+//
+//        return studentService;
+//    }
 
 }

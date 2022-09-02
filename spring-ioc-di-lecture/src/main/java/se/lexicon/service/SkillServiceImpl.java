@@ -1,15 +1,18 @@
 package se.lexicon.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.lexicon.dao.SkillDAO;
 import se.lexicon.model.dto.SkillFormDTO;
 import se.lexicon.model.entity.Skill;
 
 import java.util.Collection;
-
+@Component
 public class SkillServiceImpl implements SkillService{
 
     private final SkillDAO skillDAO;
 
+    @Autowired
     public SkillServiceImpl(SkillDAO skillDAO) {
         this.skillDAO = skillDAO;
     }

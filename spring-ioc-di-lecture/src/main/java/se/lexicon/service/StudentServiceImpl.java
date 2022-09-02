@@ -1,11 +1,14 @@
 package se.lexicon.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.lexicon.dao.StudentDAO;
 import se.lexicon.model.dto.StudentFormDTO;
 import se.lexicon.model.entity.Student;
 
 import java.util.Collection;
 
+@Component
 public class StudentServiceImpl implements StudentService{
 
     private StudentDAO studentDAO;
@@ -14,6 +17,8 @@ public class StudentServiceImpl implements StudentService{
 //        this.studentDAO = studentDAO;
 //    }
 
+
+    @Autowired
     public void setStudentDAO(StudentDAO studentDAO) {
         this.studentDAO = studentDAO;
     }
