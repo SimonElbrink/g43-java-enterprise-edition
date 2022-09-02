@@ -8,9 +8,13 @@ import se.lexicon.dao.LearnedSkillDAOImpl;
 import se.lexicon.dao.SkillDAOImpl;
 import se.lexicon.dao.StudentDAO;
 import se.lexicon.dao.sequencer.SequencersImpl;
+import se.lexicon.model.entity.LearnedSkill;
+import se.lexicon.model.entity.Skill;
 import se.lexicon.model.entity.Student;
 import se.lexicon.service.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -72,6 +76,20 @@ public class App
         // All done manually here with fewer features.
         LearnedSkillService learnedSkillService1 = new LearnedSkillServiceImpl(new LearnedSkillDAOImpl(new SequencersImpl()),
                 new SkillServiceImpl(new SkillDAOImpl(new SequencersImpl())));
+
+
+
+        Student studentWithId1 = studentService.findById(1);
+
+        List<LearnedSkill> learnedSkills = new ArrayList<>();
+        learnedSkills.add(new LearnedSkill(20,"",new Skill("Surf", "")));
+
+        studentWithId1.setLearnedSkills(learnedSkills);
+
+        studentService.findById(1).getLearnedSkills().forEach( s-> System.out.println(s.getSkill()) );
+
+
+        System.out.println(learnedSkillService.findAll());
 
 
     }
