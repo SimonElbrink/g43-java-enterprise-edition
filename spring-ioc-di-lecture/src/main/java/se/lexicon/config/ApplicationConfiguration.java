@@ -46,8 +46,14 @@ public class ApplicationConfiguration {
     @Bean
     public StudentService studentService(){
         //Constructor injection
-        return new StudentServiceImpl(studentDAO());
+//        return new StudentServiceImpl(studentDAO());
 
+        //Setter Injection
+        StudentServiceImpl studentService = new StudentServiceImpl();
+
+        studentService.setStudentDAO(studentDAO());
+
+        return studentService;
     }
 
 }

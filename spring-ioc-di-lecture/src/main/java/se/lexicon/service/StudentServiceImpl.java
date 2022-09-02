@@ -8,9 +8,13 @@ import java.util.Collection;
 
 public class StudentServiceImpl implements StudentService{
 
-    private final StudentDAO studentDAO;
+    private StudentDAO studentDAO;
 
-    public StudentServiceImpl(StudentDAO studentDAO) {
+//    public StudentServiceImpl(StudentDAO studentDAO) {
+//        this.studentDAO = studentDAO;
+//    }
+
+    public void setStudentDAO(StudentDAO studentDAO) {
         this.studentDAO = studentDAO;
     }
 
