@@ -8,6 +8,8 @@ public class SpringBootJpaLectureApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootJpaLectureApplication.class, args);
+
+		System.out.println("Hello from A Spring Boot Application - Main!");
 	}
 
 }
