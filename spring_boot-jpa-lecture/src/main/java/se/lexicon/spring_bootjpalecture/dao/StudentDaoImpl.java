@@ -3,6 +3,7 @@ package se.lexicon.spring_bootjpalecture.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.spring_bootjpalecture.exceptions.EntityNotFoundException;
 import se.lexicon.spring_bootjpalecture.model.Student;
 
 import javax.persistence.EntityManager;
@@ -25,6 +26,7 @@ public class StudentDaoImpl implements StudentDao{
         return student;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<Student> findById(int id) {
         if (id <= 0) throw new IllegalArgumentException("Invalid ID");
@@ -33,6 +35,7 @@ public class StudentDaoImpl implements StudentDao{
         return Optional.ofNullable(student);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Student> findAll() {
         Query selectQuery = entityManager.createQuery("SELECT s FROM Student s"); // SQL - SELECT * FROM students
@@ -40,6 +43,7 @@ public class StudentDaoImpl implements StudentDao{
         return selectQuery.getResultList();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Student> findByFirstName(String firstName) {
 
@@ -49,10 +53,10 @@ public class StudentDaoImpl implements StudentDao{
         return selectQuery.getResultList();
     }
 
-    @Transactional
+    @Transactional(rollbackFor = EntityNotFoundException.class)
     @Override
     public void remove(Student student) {
-        findById(student.getId()).orElseThrow(() -> new IllegalArgumentException("data not found"));
+        findById(student.getId()).orElseThrow(() -> new EntityNotFoundException("data not found"));
         entityManager.remove(student);
     }
 
