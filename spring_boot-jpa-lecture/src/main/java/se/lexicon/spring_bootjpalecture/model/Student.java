@@ -33,7 +33,7 @@ public class Student {
     private LocalDateTime registerDate;
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 

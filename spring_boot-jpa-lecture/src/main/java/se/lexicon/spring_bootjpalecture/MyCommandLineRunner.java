@@ -4,11 +4,11 @@ package se.lexicon.spring_bootjpalecture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import se.lexicon.spring_bootjpalecture.dao.StudentDao;
+import se.lexicon.spring_bootjpalecture.model.Address;
 import se.lexicon.spring_bootjpalecture.model.Student;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 
@@ -16,34 +16,52 @@ import java.time.LocalDate;
 @Component
 public class MyCommandLineRunner implements CommandLineRunner {
 
-    //Recommended to use @PersistenceContext instead
-//    @Autowired
-    @PersistenceContext
-    EntityManager entityManager;
+    @Autowired
+    public MyCommandLineRunner(StudentDao studentDao, EntityManager entityManager) {
+        this.studentDao = studentDao;
+        this.entityManager = entityManager;
+    }
+
+
+    private final StudentDao studentDao;
+    private final EntityManager entityManager;
+
 
     @Override
     public void run(String... args) throws Exception {
-
         System.out.println("Hello from A Spring Boot Application - CommandLineRunner!");
 
-        Student student = new Student("Simon", "Elbrink",
+
+
+        System.out.println("---- Example - No Cascade");
+        Student simon = new Student("Simon", "Elbrink",
                 "simon@lexicon.se",
                 LocalDate.parse("1997-01-18"),
                 true);
+        simon = studentDao.save(simon);
 
-        entityManager.persist(student);
+        Address address = new Address("SomeTown","Storgatan 8","36073");
+        entityManager.persist(address);
+        simon.setAddress(address);
 
+        entityManager.flush(); // Forcing to execute the update.
 
-        // Finding Student By ID
-        Student found = entityManager.find(Student.class,1);
-                System.out.println(found);
-
-
-        //Find ALL
-        Query query = entityManager.createQuery("SELECT s FROM Student s");
-        query.getResultList().forEach(System.out::println);
+        System.out.println("simon = " + simon);
 
 
+
+        System.out.println("---- Example - CascadeType.Persist");
+        Student mehrdad = new Student("Mehrdad", "Javan",
+                "mehrdad@lexicon.se",
+                LocalDate.parse("1990-01-01"),
+                true);
+        mehrdad = studentDao.save(mehrdad);
+
+        Address address2 = new Address("Test","Storgatan 1","12345");
+        mehrdad.setAddress(address2);
+
+        entityManager.flush();
+        System.out.println("mehrdad = " + mehrdad);
 
 
     }
