@@ -32,6 +32,11 @@ public class Student {
     @CreationTimestamp //adds a timestamp when object is added to the Database.
     private LocalDateTime registerDate;
 
+
+    @OneToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
+
     protected Student() {}
 
     public Student(int id, String firstName, String lastName, String email, LocalDate birthDate, boolean status, LocalDateTime registerDate) {
@@ -50,6 +55,15 @@ public class Student {
         this.email = email;
         this.birthDate = birthDate;
         this.status = status;
+    }
+
+    public Student(String firstName, String lastName, String email, LocalDate birthDate, boolean status, Address address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.status = status;
+        this.address = address;
     }
 
     public int getId() {
@@ -108,6 +122,14 @@ public class Student {
         this.registerDate = registerDate;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,6 +153,7 @@ public class Student {
                 ", birthDate=" + birthDate +
                 ", status=" + status +
                 ", registerDate=" + registerDate +
+                ", address=" + address +
                 '}';
     }
 }
