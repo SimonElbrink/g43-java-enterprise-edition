@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "students",schema = "jpa_db")
+@Table(name = "students")
 public class Student {
 
     @Id

@@ -35,8 +35,8 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
 
         // Finding Student By ID
-        student = entityManager.find(Student.class,1);
-                System.out.println(student);
+        Student found = entityManager.find(Student.class,1);
+                System.out.println(found);
 
 
         //Find ALL
