@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.spring_bootjpalecture.model.Student;
+import se.lexicon.spring_bootjpalecture.entity.Student;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,6 +1,6 @@
 package se.lexicon.spring_bootjpalecture.dao;
 
-import se.lexicon.spring_bootjpalecture.model.Student;
+import se.lexicon.spring_bootjpalecture.entity.Student;
 
 import java.util.List;
 import java.util.Optional;

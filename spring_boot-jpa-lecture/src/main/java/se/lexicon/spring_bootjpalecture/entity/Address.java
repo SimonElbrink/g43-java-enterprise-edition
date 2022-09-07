@@ -1,4 +1,4 @@
-package se.lexicon.spring_bootjpalecture.model;
+package se.lexicon.spring_bootjpalecture.entity;
 
 import javax.persistence.*;
 import java.util.Objects;

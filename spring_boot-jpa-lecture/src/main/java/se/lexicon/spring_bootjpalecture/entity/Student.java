@@ -1,4 +1,4 @@
-package se.lexicon.spring_bootjpalecture.model;
+package se.lexicon.spring_bootjpalecture.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 

@@ -4,7 +4,7 @@ package se.lexicon.spring_bootjpalecture.dao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.spring_bootjpalecture.exceptions.EntityNotFoundException;
-import se.lexicon.spring_bootjpalecture.model.Student;
+import se.lexicon.spring_bootjpalecture.entity.Student;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,7 +40,7 @@ public class StudentDaoImpl implements StudentDao{
     public List<Student> findAll() {
         Query selectQuery = entityManager.createQuery("SELECT s FROM Student s"); // SQL - SELECT * FROM students
 
-        return selectQuery.getResultList();
+        return selectQuery.getResultList(); //TODO
     }
 
     @Transactional(readOnly = true)
@@ -50,7 +50,7 @@ public class StudentDaoImpl implements StudentDao{
         Query selectQuery = entityManager.createQuery("SELECT s FROM Student s WHERE s.firstName = :fn");
         selectQuery.setParameter("fn", firstName);
 
-        return selectQuery.getResultList();
+        return selectQuery.getResultList(); //TODO
     }
 
     @Transactional(rollbackFor = EntityNotFoundException.class)

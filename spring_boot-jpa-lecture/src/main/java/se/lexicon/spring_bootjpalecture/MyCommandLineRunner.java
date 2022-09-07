@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import se.lexicon.spring_bootjpalecture.dao.StudentDao;
-import se.lexicon.spring_bootjpalecture.model.Address;
-import se.lexicon.spring_bootjpalecture.model.Student;
+import se.lexicon.spring_bootjpalecture.entity.Address;
+import se.lexicon.spring_bootjpalecture.entity.Student;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -28,7 +28,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         System.out.println("Hello from A Spring Boot Application - CommandLineRunner!");
 
 
