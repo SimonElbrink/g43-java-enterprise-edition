@@ -1,9 +1,6 @@
 package se.lexicon.spring_bootjpalecture.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "addresses")
@@ -11,9 +8,16 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private int id;
+
+    @Column(nullable = false, length = 100)
     private String city;
+
+    @Column(nullable = false)
     private String street;
+
+    @Column(nullable = false)
     private String zipCode;
 
     public Address() {
@@ -21,6 +25,12 @@ public class Address {
 
     public Address(int id, String city, String street, String zipCode) {
         this.id = id;
+        this.city = city;
+        this.street = street;
+        this.zipCode = zipCode;
+    }
+
+    public Address(String city, String street, String zipCode) {
         this.city = city;
         this.street = street;
         this.zipCode = zipCode;
