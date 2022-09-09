@@ -6,8 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.spring_bootjpalecture.dao.BookDao;
 import se.lexicon.spring_bootjpalecture.dao.StudentDao;
 import se.lexicon.spring_bootjpalecture.entity.Address;
+import se.lexicon.spring_bootjpalecture.entity.Book;
 import se.lexicon.spring_bootjpalecture.entity.Student;
 
 import javax.persistence.EntityManager;
@@ -29,12 +31,14 @@ public class SpringBootJpaLectureApplication {
 class MyCommandLineRunner implements CommandLineRunner {
 
 	@Autowired
-	public MyCommandLineRunner(StudentDao studentDao, EntityManager entityManager) {
+	public MyCommandLineRunner(StudentDao studentDao, BookDao bookDao, EntityManager entityManager) {
 		this.studentDao = studentDao;
+		this.bookDao = bookDao;
 		this.entityManager = entityManager;
 	}
 
 	private final StudentDao studentDao;
+	private final BookDao bookDao;
 	private final EntityManager entityManager;
 
 
@@ -42,6 +46,8 @@ class MyCommandLineRunner implements CommandLineRunner {
 	public void run(String... args) {
 
 		System.out.println("Hello from A Spring Boot Application - CommandLineRunner!");
+
+
 
 		System.out.println("---- Example - No Cascade");
 		Student simon = new Student("Simon", "Elbrink",
@@ -59,6 +65,7 @@ class MyCommandLineRunner implements CommandLineRunner {
 		System.out.println("simon = " + simon);
 
 
+
 		System.out.println("---- Example - CascadeType.Persist");
 		Student mehrdad = new Student("Mehrdad", "Javan",
 				"mehrdad@lexicon.se",
@@ -71,5 +78,47 @@ class MyCommandLineRunner implements CommandLineRunner {
 
 		entityManager.flush();
 		System.out.println("mehrdad = " + mehrdad);
+
+
+		System.out.println("---- Example - Add Book ");
+		// Book Save
+		Book javaCoreF = bookDao.save(new Book("Java Core : Fundamentals vol I 12 Edition"));
+		Book javaCoreA = bookDao.save(new Book("Java Core : Advanced vol II 12 Edition"));
+		Book springB = bookDao.save(new Book("Spring Framework Basics"));
+
+
+		//Handling The Relationship - By hand directly
+
+//		List<Book> simonsBooks = new ArrayList<>(Arrays.asList(
+//				javaCoreF, javaCoreA, springB
+//		));
+		// Set Student to Books.
+//		javaCoreF.setStudent(simon);
+//		javaCoreA.setStudent(simon);
+//		springB.setStudent(simon);
+
+		//Set Books to Student.
+//		simon.setListOfOwnedBooks(simonsBooks);
+
+
+		//Handle the Relationship with convenience methods
+		simon.addBook(javaCoreF);
+		simon.addBook(javaCoreA);
+		simon.addBook(springB);
+
+		//or (Not Implemented)
+//		simon.addBooks(javaCoreF, javaCoreA, springB);
+
+		simon.getListOfOwnedBooks().forEach(System.out::println);
+
+
+
+
+		mehrdad.addBook(new Book("Spring Framework Basics"));
+		entityManager.flush();
+
+		mehrdad.getListOfOwnedBooks().forEach(System.out::println);
+
+
 	}
 }

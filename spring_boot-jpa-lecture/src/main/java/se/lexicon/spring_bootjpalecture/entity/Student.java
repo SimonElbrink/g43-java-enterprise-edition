@@ -5,11 +5,15 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "students")
 public class Student {
+
+    //Fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Means AUTO_INCREMENT
@@ -42,6 +46,11 @@ public class Student {
     //Auto generated code by JPA = foreign key (address_id) reference address(id)
     private Address address;
 
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST)
+    private List<Book> listOfOwnedBooks;
+
+    //Constructors
     protected Student() {}
 
     public Student(int id, String firstName, String lastName, String email, LocalDate birthDate, boolean status, LocalDateTime registerDate) {
@@ -70,6 +79,33 @@ public class Student {
         this.status = status;
         this.address = address;
     }
+
+    //Custom methods
+
+    public void addBook(Book book){
+
+        if (book == null) throw new IllegalArgumentException("Invalid parameter: Book was null");
+        if (listOfOwnedBooks == null) listOfOwnedBooks = new ArrayList<>();
+
+        listOfOwnedBooks.add(book);
+        book.setStudent(this);
+    }
+
+
+    public void removeBook(Book book){
+        if (book == null) throw new IllegalArgumentException("Invalid parameter: Book was null");
+
+        if (listOfOwnedBooks != null){
+
+            if (listOfOwnedBooks.contains(book)){
+                    book.setStudent(null);
+                    listOfOwnedBooks.remove(book);
+            }
+
+        }
+    }
+
+    //Getter and Setters
 
     public int getId() {
         return id;
@@ -133,6 +169,14 @@ public class Student {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public List<Book> getListOfOwnedBooks() {
+        return listOfOwnedBooks;
+    }
+
+    public void setListOfOwnedBooks(List<Book> listOfOwnedBooks) {
+        this.listOfOwnedBooks = listOfOwnedBooks;
     }
 
     @Override
