@@ -27,9 +27,13 @@ public class Student {
     @Column(nullable = false)
     private LocalDate birthDate;
 
+    @Column(columnDefinition = "bit not null default true")
     private boolean status;
 
+//    https://thorben-janssen.com/persist-creation-update-timestamps-hibernate/
     @CreationTimestamp //adds a timestamp when object is added to the Database.
+    //@Column(name="register_date", columnDefinition="TIMESTAMP DEFAULT now()") // Also works (Dependent of Database)
+    @Column(name = "register_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime registerDate;
 
 
