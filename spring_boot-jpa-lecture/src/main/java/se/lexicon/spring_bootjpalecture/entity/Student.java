@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -49,6 +50,11 @@ public class Student {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST)
     private List<Book> listOfOwnedBooks;
+
+
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH},
+            mappedBy = "students")
+    private Set<Course> courses;
 
     //Constructors
     protected Student() {}
@@ -177,6 +183,14 @@ public class Student {
 
     public void setListOfOwnedBooks(List<Book> listOfOwnedBooks) {
         this.listOfOwnedBooks = listOfOwnedBooks;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
     @Override
