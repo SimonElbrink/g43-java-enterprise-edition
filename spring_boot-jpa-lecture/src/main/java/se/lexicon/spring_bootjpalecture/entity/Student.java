@@ -37,8 +37,9 @@ public class Student {
     private LocalDateTime registerDate;
 
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
+    //Auto generated code by JPA = foreign key (address_id) reference address(id)
     private Address address;
 
     protected Student() {}

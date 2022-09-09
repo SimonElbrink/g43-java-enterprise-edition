@@ -20,6 +20,9 @@ public class Address {
     @Column(nullable = false)
     private String zipCode;
 
+    @OneToOne(mappedBy = "address")
+    private Student student;
+
     public Address() {
     }
 
@@ -66,6 +69,14 @@ public class Address {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @Override
