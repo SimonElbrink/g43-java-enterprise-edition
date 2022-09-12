@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.spring_bootjpalecture.dao.BookDao;
@@ -26,6 +27,7 @@ public class SpringBootJpaLectureApplication {
 
 }
 
+@Profile(value = "dev") // linked to profile spring.profiles.active in Application.properties
 @Transactional
 @Component
 class MyCommandLineRunner implements CommandLineRunner {

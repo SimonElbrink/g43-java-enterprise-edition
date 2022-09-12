@@ -8,7 +8,7 @@ import se.lexicon.spring_bootjpalecture.entity.Student;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,19 +38,19 @@ public class StudentDaoImpl implements StudentDao{
     @Transactional(readOnly = true)
     @Override
     public List<Student> findAll() {
-        Query selectQuery = entityManager.createQuery("SELECT s FROM Student s"); // SQL - SELECT * FROM students
+        TypedQuery<Student> selectQuery = entityManager.createQuery("SELECT s FROM Student s", Student.class); // SQL - SELECT * FROM students
 
-        return selectQuery.getResultList(); //TODO
+        return selectQuery.getResultList();
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<Student> findByFirstName(String firstName) {
 
-        Query selectQuery = entityManager.createQuery("SELECT s FROM Student s WHERE s.firstName = :fn");
+        TypedQuery<Student> selectQuery = entityManager.createQuery("SELECT s FROM Student s WHERE s.firstName = :fn", Student.class);
         selectQuery.setParameter("fn", firstName);
 
-        return selectQuery.getResultList(); //TODO
+        return selectQuery.getResultList();
     }
 
     @Transactional(rollbackFor = EntityNotFoundException.class)
@@ -70,15 +70,7 @@ public class StudentDaoImpl implements StudentDao{
 //    @Transactional
     @Override
     public List<Student> saveStudents(List<Student> students) {
-
-//        for (Student s : students) {
-//            save(s);
-//        }
-
-//        students.forEach(student -> save(student));
-
         students.forEach(this::save);
-
         return students;
     }
 }
