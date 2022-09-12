@@ -12,11 +12,17 @@ public class Book {
 
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "student_id")
     private Student student;
 
     public Book() {
+    }
+
+    public Book(int id, String name, Student student) {
+        this.id = id;
+        this.name = name;
+        this.student = student;
     }
 
     public Book(String name) {

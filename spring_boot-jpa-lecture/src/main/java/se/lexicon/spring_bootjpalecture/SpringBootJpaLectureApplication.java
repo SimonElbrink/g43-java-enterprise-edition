@@ -122,5 +122,32 @@ class MyCommandLineRunner implements CommandLineRunner {
 		mehrdad.getListOfOwnedBooks().forEach(System.out::println);
 
 
+
+
+
+		Book aBook = new Book("ABook"); // id=0, name:"Abook", student: null
+		bookDao.save(aBook);// id=5, name:"Abook", student: null
+		// abook part of PersistenceContext
+
+
+//		aBook.setName("UpdatedBook"); // Trigger an update in database = because it's in Persistence Context
+//		bookDao.update(aBook); // not needed for updating data.
+
+
+//		//Detached - Same value as aBook but NOT in the persistence context == not Same Object
+		Book ABook = new Book(5,"ABook",null);// id=5, name:"Abook", student: null
+
+//		Remove will show detached. when try to remove with Object. (Implementation Removed)
+//		bookDao.remove(ABook);
+
+		//Attached ABook = bring to context
+		bookDao.save(ABook);
+		
+//		ABook.setName("UpdatedBook");
+
+
+		bookDao.remove(aBook.getId()); // Removes the entity from Persistence Context = Remove Data Row in Database.
+
+
 	}
 }
