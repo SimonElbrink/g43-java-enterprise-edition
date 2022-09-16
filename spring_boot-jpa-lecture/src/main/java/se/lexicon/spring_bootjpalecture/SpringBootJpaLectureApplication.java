@@ -7,10 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.spring_bootjpalecture.dao.BookDao;
-import se.lexicon.spring_bootjpalecture.dao.StudentDao;
+import se.lexicon.spring_bootjpalecture.data.dao.BookDao;
+import se.lexicon.spring_bootjpalecture.data.dao.StudentDao;
+import se.lexicon.spring_bootjpalecture.data.repository.AddressRepository;
+import se.lexicon.spring_bootjpalecture.data.repository.BookRepository;
+import se.lexicon.spring_bootjpalecture.data.repository.CourseRepository;
+import se.lexicon.spring_bootjpalecture.data.repository.StudentRepository;
 import se.lexicon.spring_bootjpalecture.entity.Address;
 import se.lexicon.spring_bootjpalecture.entity.Book;
+import se.lexicon.spring_bootjpalecture.entity.Course;
 import se.lexicon.spring_bootjpalecture.entity.Student;
 
 import javax.persistence.EntityManager;
@@ -32,15 +37,24 @@ public class SpringBootJpaLectureApplication {
 @Component
 class MyCommandLineRunner implements CommandLineRunner {
 
+
 	@Autowired
-	public MyCommandLineRunner(StudentDao studentDao, BookDao bookDao, EntityManager entityManager) {
-		this.studentDao = studentDao;
-		this.bookDao = bookDao;
+	public MyCommandLineRunner(StudentRepository studentRepo, BookRepository bookRepository, AddressRepository addressRepository, CourseRepository courseRepository, EntityManager entityManager) {
+		this.studentRepo = studentRepo;
+		this.bookRepository = bookRepository;
+		this.addressRepository = addressRepository;
+		this.courseRepository = courseRepository;
 		this.entityManager = entityManager;
 	}
 
-	private final StudentDao studentDao;
-	private final BookDao bookDao;
+	private final StudentRepository studentRepo;
+
+	private final BookRepository bookRepository;
+
+	private final AddressRepository addressRepository;
+
+	private final CourseRepository courseRepository;
+
 	private final EntityManager entityManager;
 
 
@@ -56,7 +70,7 @@ class MyCommandLineRunner implements CommandLineRunner {
 				"simon@lexicon.se",
 				LocalDate.parse("1997-01-18"),
 				true);
-		simon = studentDao.save(simon);
+		simon = studentRepo.save(simon);
 
 		Address address = new Address("SomeTown","Storgatan 8","36073");
 		entityManager.persist(address);
@@ -73,7 +87,7 @@ class MyCommandLineRunner implements CommandLineRunner {
 				"mehrdad@lexicon.se",
 				LocalDate.parse("1990-01-01"),
 				true);
-		mehrdad = studentDao.save(mehrdad);
+		mehrdad = studentRepo.save(mehrdad);
 
 		Address address2 = new Address("Test","Storgatan 1","12345");
 		mehrdad.setAddress(address2); // Set Relationship - no manual saving first.
@@ -84,9 +98,9 @@ class MyCommandLineRunner implements CommandLineRunner {
 
 		System.out.println("---- Example - Add Book ");
 		// Book Save
-		Book javaCoreF = bookDao.save(new Book("Java Core : Fundamentals vol I 12 Edition"));
-		Book javaCoreA = bookDao.save(new Book("Java Core : Advanced vol II 12 Edition"));
-		Book springB = bookDao.save(new Book("Spring Framework Basics"));
+		Book javaCoreF = bookRepository.save(new Book("Java Core : Fundamentals vol I 12 Edition"));
+		Book javaCoreA = bookRepository.save(new Book("Java Core : Advanced vol II 12 Edition"));
+		Book springB = bookRepository.save(new Book("Spring Framework Basics"));
 
 
 		//Handling The Relationship - By hand directly
@@ -126,27 +140,48 @@ class MyCommandLineRunner implements CommandLineRunner {
 
 
 		Book aBook = new Book("ABook"); // id=0, name:"Abook", student: null
-		bookDao.save(aBook);// id=5, name:"Abook", student: null
+		bookRepository.save(aBook);// id=5, name:"Abook", student: null
 		// abook part of PersistenceContext
 
 
 //		aBook.setName("UpdatedBook"); // Trigger an update in database = because it's in Persistence Context
-//		bookDao.update(aBook); // not needed for updating data.
+//		bookRepository.update(aBook); // not needed for updating data.
 
 
 //		//Detached - Same value as aBook but NOT in the persistence context == not Same Object
 		Book ABook = new Book(5,"ABook",null);// id=5, name:"Abook", student: null
 
 //		Remove will show detached. when try to remove with Object. (Implementation Removed)
-//		bookDao.remove(ABook);
+//		bookRepository.delete(ABook);
 
 		//Attached ABook = bring to context
-		bookDao.save(ABook);
+		bookRepository.save(ABook);
 		
 //		ABook.setName("UpdatedBook");
 
 
-		bookDao.remove(aBook.getId()); // Removes the entity from Persistence Context = Remove Data Row in Database.
+		bookRepository.deleteById(aBook.getId()); // Removes the entity from Persistence Context = Remove Data Row in Database.
+
+
+		System.out.println("FINDBYFIRSTNAME");
+
+		studentRepo.findAllByFirstNameIgnoreCase("simon").forEach(System.out::println);
+
+
+		studentRepo.findAllByBirthDateBetween(LocalDate.parse("1990-01-01"), LocalDate.parse("2000-01-01"));
+
+
+
+		Course course = new Course("JavaGroup43");
+		course = courseRepository.save(course);
+
+		simon.addCourse(course);
+		mehrdad.addCourse(course);
+
+
+		System.out.println("findByCourseName");
+		studentRepo.findStudentsByCoursesNameIgnoreCase("javagroup43").forEach(System.out::println);
+
 
 
 	}

@@ -5,10 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "students")
@@ -110,6 +107,22 @@ public class Student {
 
         }
     }
+
+    public void addCourse(Course course){
+        if (course == null) throw new IllegalArgumentException("Course is null");
+        if (courses == null)  courses = new HashSet<>();
+
+        course.getStudents().add(this);
+        courses.add(course);
+    }
+
+    public void removeCourse(Course course){
+        if (course == null) throw new IllegalArgumentException("Course is null");
+
+        course.getStudents().add(this);
+        courses.remove(course);
+    }
+
 
     //Getter and Setters
 

@@ -1,4 +1,4 @@
-package se.lexicon.spring_bootjpalecture.dao;
+package se.lexicon.spring_bootjpalecture.data.dao;
 
 import se.lexicon.spring_bootjpalecture.entity.Student;
 

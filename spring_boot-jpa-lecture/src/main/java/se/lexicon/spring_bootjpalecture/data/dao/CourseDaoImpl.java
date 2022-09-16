@@ -1,4 +1,4 @@
-package se.lexicon.spring_bootjpalecture.dao;
+package se.lexicon.spring_bootjpalecture.data.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

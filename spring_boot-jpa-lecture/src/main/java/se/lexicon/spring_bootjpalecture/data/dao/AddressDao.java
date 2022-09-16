@@ -1,4 +1,4 @@
-package se.lexicon.spring_bootjpalecture.dao;
+package se.lexicon.spring_bootjpalecture.data.dao;
 
 import se.lexicon.spring_bootjpalecture.entity.Address;
 
@@ -12,6 +12,13 @@ public interface AddressDao {
     Optional<Address> findById(int id);
 
     List<Address> findAll();
+
+
+    List<Address> findAddressByZipCode(String zipCode);
+
+    List<Address> findAddressByCity(String city);
+
+
 
     void remove(Address address);
 }

@@ -1,4 +1,4 @@
-package se.lexicon.spring_bootjpalecture.dao;
+package se.lexicon.spring_bootjpalecture.data.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.spring_bootjpalecture.data.dao.StudentDao;
 import se.lexicon.spring_bootjpalecture.entity.Student;
 
 import java.time.LocalDate;

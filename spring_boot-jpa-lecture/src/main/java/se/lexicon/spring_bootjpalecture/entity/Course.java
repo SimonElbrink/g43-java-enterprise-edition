@@ -1,6 +1,7 @@
 package se.lexicon.spring_bootjpalecture.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ public class Course {
 
     public Course(String name) {
         this.name = name;
+        this.students = new HashSet<>();
     }
 
     public int getId() {
