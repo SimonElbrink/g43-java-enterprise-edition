@@ -15,8 +15,8 @@ public class Course {
 
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable( name = "courses_students",
-            joinColumns = @JoinColumn(name = "students_id"),
-            inverseJoinColumns = @JoinColumn(name = "courses_id")
+            joinColumns = @JoinColumn(name = "courses_id"),
+            inverseJoinColumns = @JoinColumn(name = "students_id")
     )
     private Set<Student> students;
 
