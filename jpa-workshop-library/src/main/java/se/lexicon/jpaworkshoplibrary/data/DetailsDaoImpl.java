@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import java.util.Collection;
 
 @Repository
-public class DetailsDaoImpl implements DetailsDao{
+public class DetailsDaoImpl implements DetailsDao {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -31,7 +31,7 @@ public class DetailsDaoImpl implements DetailsDao{
     @Override
     @Transactional(readOnly = true)
     public Collection<Details> findAll() {
-        return entityManager.createQuery("SELECT details FROM Details details",Details.class).getResultList();
+        return entityManager.createQuery("SELECT details FROM Details details", Details.class).getResultList();
     }
 
     @Override
@@ -45,7 +45,6 @@ public class DetailsDaoImpl implements DetailsDao{
     public void delete(int id) {
         entityManager.remove(findById(id));
     }
-
 
 
 }

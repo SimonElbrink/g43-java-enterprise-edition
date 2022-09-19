@@ -7,8 +7,12 @@ import java.util.Collection;
 
 public interface BookLoanDao {
     BookLoan create(BookLoan bookLoan);
+
     BookLoan findById(int id);
+
     Collection<BookLoan> findAll();
+
     BookLoan update(BookLoan bookLoan);
+
     void delete(int id);
 }
