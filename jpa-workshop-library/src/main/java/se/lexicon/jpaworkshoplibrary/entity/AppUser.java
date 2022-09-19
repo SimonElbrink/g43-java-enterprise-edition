@@ -1,10 +1,13 @@
 package se.lexicon.jpaworkshoplibrary.entity;
 
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import static javax.persistence.CascadeType.*;
 
 @Entity
 public class AppUser {
@@ -17,20 +20,26 @@ public class AppUser {
     private String password;
     private LocalDate regDate;
 
-    @OneToOne(cascade = CascadeType.ALL,
+    @OneToOne(cascade = ALL,
             fetch = FetchType.EAGER
     )
     @JoinColumn(name = "details_id")
     private Details userDetails;
 
+    @OneToMany(cascade = {PERSIST, MERGE, DETACH, REFRESH}
+            , fetch = FetchType.LAZY
+    )
+    private List<BookLoan> bookLoans;
+
     public AppUser() {}
 
-    public AppUser(int appUserId, String username, String password, LocalDate regDate, Details userDetails) {
+    public AppUser(int appUserId, String username, String password, LocalDate regDate, Details userDetails, List<BookLoan> bookLoans) {
         this.appUserId = appUserId;
         this.username = username;
         this.password = password;
         this.regDate = regDate;
         this.userDetails = userDetails;
+        this.bookLoans = bookLoans;
     }
 
     public AppUser(String username, String password, Details userDetails) {
@@ -38,6 +47,18 @@ public class AppUser {
         this.password = password;
         setRegDate(LocalDate.now());
         this.userDetails = userDetails;
+        setBookLoans(new ArrayList<>());
+    }
+
+    public void addBookLoan(BookLoan bookLoan){
+        if (bookLoan == null) throw new IllegalArgumentException("parameter bookLoan was null");
+        if (bookLoans == null) bookLoans = new ArrayList<>();
+
+
+        if (!bookLoans.contains(bookLoan)){
+            bookLoan.setBorrower(this);
+            bookLoans.add(bookLoan);
+        }
     }
 
     public int getAppUserId() {
@@ -78,6 +99,14 @@ public class AppUser {
 
     public void setUserDetails(Details userDetails) {
         this.userDetails = userDetails;
+    }
+
+    public List<BookLoan> getBookLoans() {
+        return bookLoans;
+    }
+
+    public void setBookLoans(List<BookLoan> bookLoans) {
+        this.bookLoans = bookLoans;
     }
 
     @Override
