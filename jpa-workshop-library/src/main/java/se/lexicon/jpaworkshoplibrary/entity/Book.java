@@ -1,10 +1,9 @@
 package se.lexicon.jpaworkshoplibrary.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -16,20 +15,36 @@ public class Book {
     private String title;
     private int maxLoanDays;
 
+    @ManyToMany(
+            mappedBy = "writtenBooks" ,
+            cascade = {CascadeType.REFRESH,CascadeType.DETACH},
+            fetch = FetchType.LAZY
+    )
+    private Set<Author> authors;
+
     public Book() {
     }
 
-    public Book(int bookId, String isbn, String title, int maxLoanDays) {
+    public Book(int bookId, String isbn, String title, int maxLoanDays, Set<Author> authors) {
         this.bookId = bookId;
         this.isbn = isbn;
         this.title = title;
         this.maxLoanDays = maxLoanDays;
+        this.authors = authors;
+    }
+
+    public Book(String isbn, String title, int maxLoanDays, Set<Author> authors) {
+        this.isbn = isbn;
+        this.title = title;
+        this.maxLoanDays = maxLoanDays;
+        this.authors = authors;
     }
 
     public Book(String isbn, String title, int maxLoanDays) {
         this.isbn = isbn;
         this.title = title;
         this.maxLoanDays = maxLoanDays;
+        setAuthors(new HashSet<>());
     }
 
     public int getBookId() {
@@ -62,6 +77,14 @@ public class Book {
 
     public void setMaxLoanDays(int maxLoanDays) {
         this.maxLoanDays = maxLoanDays;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 
     @Override
