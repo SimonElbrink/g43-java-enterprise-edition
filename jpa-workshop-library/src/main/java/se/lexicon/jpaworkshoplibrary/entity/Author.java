@@ -41,23 +41,23 @@ public class Author {
 
     }
 
-    public void addBook(Book book){
+    public void addBook(Book book) {
 
         if (book == null) throw new IllegalArgumentException("Parameter Book was null");
         if (writtenBooks == null) setWrittenBooks(new HashSet<>());
 
 
-        if (!writtenBooks.contains(book)){
+        if (!writtenBooks.contains(book)) {
             book.getAuthors().add(this);
             writtenBooks.add(book);
         }
     }
 
-    public void removeBook(Book book){
+    public void removeBook(Book book) {
         if (book == null) throw new IllegalArgumentException("Parameter Book was null");
         if (writtenBooks == null) setWrittenBooks(new HashSet<>());
 
-        if (writtenBooks.contains(book)){
+        if (writtenBooks.contains(book)) {
             book.getAuthors().remove(this);
             writtenBooks.remove(book);
         }

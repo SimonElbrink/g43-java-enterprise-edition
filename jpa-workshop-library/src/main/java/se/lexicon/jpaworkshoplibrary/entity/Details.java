@@ -15,7 +15,8 @@ public class Details {
     private String name;
     private LocalDate birthDate;
 
-    public Details() {}
+    public Details() {
+    }
 
     public Details(int detailsId, String email, String name, LocalDate birthDate) {
         this.detailsId = detailsId;

@@ -16,8 +16,8 @@ public class Book {
     private int maxLoanDays;
 
     @ManyToMany(
-            mappedBy = "writtenBooks" ,
-            cascade = {CascadeType.REFRESH,CascadeType.DETACH},
+            mappedBy = "writtenBooks",
+            cascade = {CascadeType.REFRESH, CascadeType.DETACH},
             fetch = FetchType.LAZY
     )
     private Set<Author> authors;

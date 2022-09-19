@@ -33,7 +33,8 @@ public class AppUser {
     )
     private List<BookLoan> bookLoans;
 
-    public AppUser() {}
+    public AppUser() {
+    }
 
     public AppUser(int appUserId, String username, String password, LocalDate regDate, Details userDetails, List<BookLoan> bookLoans) {
         this.appUserId = appUserId;
@@ -52,12 +53,12 @@ public class AppUser {
         setBookLoans(new ArrayList<>());
     }
 
-    public void addBookLoan(BookLoan bookLoan){
+    public void addBookLoan(BookLoan bookLoan) {
         if (bookLoan == null) throw new IllegalArgumentException("parameter bookLoan was null");
         if (bookLoans == null) bookLoans = new ArrayList<>();
 
 
-        if (!bookLoans.contains(bookLoan)){
+        if (!bookLoans.contains(bookLoan)) {
             bookLoan.setBorrower(this);
             bookLoans.add(bookLoan);
         }
