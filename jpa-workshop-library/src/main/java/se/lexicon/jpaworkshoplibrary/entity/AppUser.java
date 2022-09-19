@@ -26,8 +26,10 @@ public class AppUser {
     @JoinColumn(name = "details_id")
     private Details userDetails;
 
-    @OneToMany(cascade = {PERSIST, MERGE, DETACH, REFRESH}
-            , fetch = FetchType.LAZY
+    @OneToMany(
+            mappedBy = "borrower",
+            cascade = {PERSIST, MERGE, DETACH, REFRESH},
+            fetch = FetchType.LAZY
     )
     private List<BookLoan> bookLoans;
 
