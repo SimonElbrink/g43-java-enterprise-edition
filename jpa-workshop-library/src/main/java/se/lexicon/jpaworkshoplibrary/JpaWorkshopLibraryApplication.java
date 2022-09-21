@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.jpaworkshoplibrary.data.AppUserDao;
-import se.lexicon.jpaworkshoplibrary.data.AuthorDao;
-import se.lexicon.jpaworkshoplibrary.data.BookDao;
-import se.lexicon.jpaworkshoplibrary.data.BookLoanDao;
+import se.lexicon.jpaworkshoplibrary.data.repository.AppUserRepository;
+import se.lexicon.jpaworkshoplibrary.data.repository.AuthorRepository;
+import se.lexicon.jpaworkshoplibrary.data.repository.BookRepository;
+import se.lexicon.jpaworkshoplibrary.data.repository.BookLoanRepository;
 import se.lexicon.jpaworkshoplibrary.entity.*;
 
 import java.time.LocalDate;
@@ -24,62 +25,57 @@ public class JpaWorkshopLibraryApplication {
 
 }
 
+@Profile("dev")
 @Transactional
 @Component
 class MyCommandLineRunner implements CommandLineRunner {
 
     @Autowired
-    public MyCommandLineRunner(AppUserDao appUserDao, BookDao bookDao, AuthorDao authorDao, BookLoanDao bookLoanDao) {
-        this.appUserDao = appUserDao;
-        this.bookDao = bookDao;
-        this.authorDao = authorDao;
-        this.bookLoanDao = bookLoanDao;
+    public MyCommandLineRunner(AppUserRepository appUserRepository, BookRepository bookRepository, AuthorRepository authorRepository, BookLoanRepository bookLoanRepository) {
+        this.appUserRepository = appUserRepository;
+        this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
+        this.bookLoanRepository = bookLoanRepository;
     }
 
 
-    AppUserDao appUserDao;
+    AppUserRepository appUserRepository;
 
-    BookDao bookDao;
+    BookRepository bookRepository;
 
-    AuthorDao authorDao;
+    AuthorRepository authorRepository;
 
-    BookLoanDao bookLoanDao;
+    BookLoanRepository bookLoanRepository;
 
 
 
     @Override
     public void run(String... args) throws Exception {
-
-
         seedingData();
 
-
-
-        Optional<AppUser> roudabe = appUserDao.findAppUserByUsername("roudabehadnani");
+        Optional<AppUser> roudabe = appUserRepository.findAppUserByUsername("roudabehadnani");
 
         roudabe.ifPresent(System.out::println);
-
-
 
 
     }
 
     private void seedingData() throws InterruptedException {
-        AppUser martinChilling = appUserDao.create(new AppUser("martinchilling", "ThisIsImportant",
+        AppUser martinChilling = appUserRepository.save(new AppUser("martinchilling", "ThisIsImportant",
                 new Details("martin.chilling@mail.com", "Martin Chilling", LocalDate.parse("1960-04-05"))
         ));
 
 
-        Book harryPotterDH = bookDao.create(new Book("9780545139700", "Harry Potter and the Deathly Hallows", 14));
+        Book harryPotterDH = bookRepository.save(new Book("9780545139700", "Harry Potter and the Deathly Hallows", 14));
 
-        Author j_k_Rowling = authorDao.create(new Author("J.K.", "Rowling"));
+        Author j_k_Rowling = authorRepository.save(new Author("J.K.", "Rowling"));
 
         //Adds Author and book relationship.
         j_k_Rowling.addBook(harryPotterDH);
 
         LocalDate dateOfBorrow = LocalDate.parse("2020-01-01");
 
-        BookLoan martinBorrowsHarryPotter = bookLoanDao.create(new BookLoan(
+        BookLoan martinBorrowsHarryPotter = bookLoanRepository.save(new BookLoan(
                 dateOfBorrow,
                 dateOfBorrow.plusDays(14),
                 false,

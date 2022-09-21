@@ -3,12 +3,9 @@ package se.lexicon.jpaworkshoplibrary.data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.jpaworkshoplibrary.data.repository.BookLoanRepository;
 import se.lexicon.jpaworkshoplibrary.entity.AppUser;
 import se.lexicon.jpaworkshoplibrary.entity.Book;
 import se.lexicon.jpaworkshoplibrary.entity.BookLoan;
@@ -21,18 +18,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
-@AutoConfigureTestDatabase
-@AutoConfigureTestEntityManager
-@DirtiesContext
-@Transactional
-class BookLoanDaoImplTest {
+@DataJpaTest
+class BookLoanRepositoryImplTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private BookLoanDao bookLoanDao;
+    private BookLoanRepository bookLoanRepository;
 
     private BookLoan testObject;
 
@@ -88,6 +81,8 @@ class BookLoanDaoImplTest {
         List<BookLoan> persistedBookLoans =  bookLoans.stream()
                 .map(entityManager::persist)
                 .collect(Collectors.toList());
+
+        testObject = persistedBookLoans.get(0);
     }
 
     @Test
@@ -100,7 +95,7 @@ class BookLoanDaoImplTest {
 
     @Test
     void findAll() {
-        assertEquals(2, bookLoanDao.findAll().size());
+        assertEquals(2, bookLoanRepository.findAll().size());
     }
 
     @Test

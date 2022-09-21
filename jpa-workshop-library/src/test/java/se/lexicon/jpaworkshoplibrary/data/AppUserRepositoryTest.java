@@ -3,12 +3,9 @@ package se.lexicon.jpaworkshoplibrary.data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.jpaworkshoplibrary.data.repository.AppUserRepository;
 import se.lexicon.jpaworkshoplibrary.entity.AppUser;
 import se.lexicon.jpaworkshoplibrary.entity.Details;
 
@@ -16,23 +13,20 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureTestDatabase
-@AutoConfigureTestEntityManager
-@DirtiesContext
-@Transactional
-class AppUserDaoTest {
+@DataJpaTest
+class AppUserRepositoryTest {
 
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private AppUserDao appUserDao;
+    private AppUserRepository appUserRepository;
 
     private AppUser testObject;
 
@@ -58,15 +52,15 @@ class AppUserDaoTest {
 
     @Test
     void findById() {
-        AppUser foundAppUser = appUserDao.findById(testObject.getAppUserId());
+        Optional<AppUser> foundAppUser = appUserRepository.findById(testObject.getAppUserId());
 
-        assertNotNull(foundAppUser);
+        assertTrue(foundAppUser.isPresent());
     }
 
     @Test
     void findAll() {
 
-        Collection<AppUser> found = appUserDao.findAll();
+        Collection<AppUser> found = appUserRepository.findAll();
 
         assertNotNull(found);
         assertEquals(2, found.size());
@@ -78,7 +72,7 @@ class AppUserDaoTest {
     void create() {
         AppUser appUser = new AppUser("Maggan123","ThisIsASecret", null);
 
-        AppUser persistedUser = appUserDao.create(appUser);
+        AppUser persistedUser = appUserRepository.save(appUser);
 
         assertNotNull(persistedUser);
         assertNotEquals(0,persistedUser.getAppUserId());
@@ -95,7 +89,7 @@ class AppUserDaoTest {
         assertNotNull(entityManager.find(AppUser.class, testObject.getAppUserId()));
 
         //remove simon by id.
-        appUserDao.delete(testObject.getAppUserId());
+        appUserRepository.deleteById(testObject.getAppUserId());
 
         //Check if simon is removed.
         assertNull(entityManager.find(AppUser.class, testObject.getAppUserId()));
