@@ -1,5 +1,6 @@
 package se.lexicon.jpaworkshoplibrary.data;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpaworkshoplibrary.entity.Book;
 
@@ -7,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Collection;
 
+@Repository
 public class BookDaoImpl implements BookDao {
     @PersistenceContext
     EntityManager entityManager;

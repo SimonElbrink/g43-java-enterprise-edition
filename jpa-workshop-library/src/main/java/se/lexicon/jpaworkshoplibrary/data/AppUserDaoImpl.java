@@ -6,7 +6,9 @@ import se.lexicon.jpaworkshoplibrary.entity.AppUser;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public class AppUserDaoImpl implements AppUserDao{
@@ -24,6 +26,15 @@ public class AppUserDaoImpl implements AppUserDao{
     @Override
     public Collection<AppUser> findAll() {
         return entityManager.createQuery("SELECT a FROM AppUser a", AppUser.class).getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<AppUser> findAppUserByUsername(String username){
+        TypedQuery<AppUser> query = entityManager.createQuery("SELECT a FROM AppUser a WHERE a.username = :username", AppUser.class);
+        query.setParameter("username", username);
+
+        return Optional.ofNullable(query.getSingleResult());
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
