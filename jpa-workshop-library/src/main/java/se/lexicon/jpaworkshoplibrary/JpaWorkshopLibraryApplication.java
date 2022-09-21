@@ -9,11 +9,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpaworkshoplibrary.data.repository.AppUserRepository;
 import se.lexicon.jpaworkshoplibrary.data.repository.AuthorRepository;
-import se.lexicon.jpaworkshoplibrary.data.repository.BookRepository;
 import se.lexicon.jpaworkshoplibrary.data.repository.BookLoanRepository;
+import se.lexicon.jpaworkshoplibrary.data.repository.BookRepository;
 import se.lexicon.jpaworkshoplibrary.entity.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -48,16 +49,33 @@ class MyCommandLineRunner implements CommandLineRunner {
     BookLoanRepository bookLoanRepository;
 
 
-
     @Override
     public void run(String... args) throws Exception {
         seedingData();
 
+        findByUserName();
+        findUsersBorrowingABookByISBN();
+        findByUsernameFragment();
+    }
+
+    private void findByUsernameFragment() {
+        List<AppUser> foundUsersByUsernameFragment = appUserRepository.findAppUsersByUsernameContaining("ro");
+
+        foundUsersByUsernameFragment.forEach(appUser -> System.out.println(appUser.getUserDetails().getName()));
+
+        appUserRepository.updatePasswordByUsername("roudabehadnani", "1234");
+    }
+
+    private void findUsersBorrowingABookByISBN() {
+        List<AppUser> appUsersBorrowingJavaHowToProgram = appUserRepository.findAppUsersByBookLoans_Book_Isbn("9780132575669");
+
+        appUsersBorrowingJavaHowToProgram.forEach(appUser -> System.out.println(appUser.getUserDetails().getName()));
+    }
+
+    private void findByUserName() {
         Optional<AppUser> roudabe = appUserRepository.findAppUserByUsername("roudabehadnani");
 
         roudabe.ifPresent(System.out::println);
-
-
     }
 
     private void seedingData() throws InterruptedException {
@@ -87,5 +105,16 @@ class MyCommandLineRunner implements CommandLineRunner {
         Thread.sleep(1000);
 
         martinChilling.getBookLoans().forEach(System.out::println);
+
+        createAndDeleteABook(j_k_Rowling);
+
+    }
+
+    private void createAndDeleteABook(Author j_k_Rowling) {
+        Book harryPotterSS = bookRepository.save(new Book("9780590353403", "Harry Potter and the Sorcerer's Stone, Book 1", 14));
+
+//        j_k_Rowling.addBook(harryPotterSS); // book has no relationship it's okay to remove otherwise ConstraintViolationException will be thrown
+
+        bookRepository.delete(harryPotterSS);
     }
 }
