@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document Title</title>
+
+    <!-- Resources -->
+    <!-- Fontawesome icon library Resource -->
+    <link rel="stylesheet" th:href="@{/webjars/fortawesome__fontawesome-free/css/all.css}">
+
+    <!-- Bootstrap Webjar Resource -->
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+
+</head>
+
+<body style="min-height: 75rem; padding-top: 4.5rem;">
+
+<!--Start of Navigation Bar-->
+<nav th:insert="fragments/nav :: nav_fragment"></nav>
+<!--End of Navigation Bar-->
+
+
+<section>
+    <div class="container">
+        <!-- CONTENT -->
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h4>View</h4>
+                    </div>
+
+                    <div>
+                        Data not found
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-header mb-2"><span>Details</span></h5>
+                        <div class="d-md-flex flex-row mb-3">
+                            <div class="col-md-2 bg-light shadow-sm" >
+                                <span>ID</span>:
+                            </div>
+                            <div class="col-md-10 border border-light shadow-sm">
+                                <span>CATEGORY_ID</span>
+                            </div>
+                        </div>
+                        <div class="d-md-flex flex-row mb-3">
+                            <div class="col-md-2 bg-light shadow-sm" >
+                                <span>Category</span>:
+                            </div>
+                            <div class="col-md-10 border border-light shadow-sm">
+                                <span>CATEGORY_NAME</span>
+                            </div>
+                        </div>
+                        <div class="d-md-flex flex-row mb-3">
+                            <div class="col-md-2 bg-light shadow-sm" >
+                                <span>Date:</span>:
+                            </div>
+                            <div class="col-md-10 border border-light shadow-sm">
+                                <span>YYYY-MM-DD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+
+<!--Start of Footer-->
+<footer th:insert="fragments/footer :: footer_fragment"></footer>
+<!--End of Footer-->
+
+</body>
+
+</html>
