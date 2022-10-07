@@ -4,6 +4,7 @@ package se.lexicon.spring_bootmvcthymeleaf.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import se.lexicon.spring_bootmvcthymeleaf.model.dto.CategoryForm;
 import se.lexicon.spring_bootmvcthymeleaf.model.dto.CategoryView;
 
 import java.time.LocalDate;
@@ -31,6 +32,13 @@ public class CategoryController {
     public String category(Model model) {
 
         model.addAttribute("categoryViews", categoryViewList);
+
+
+        CategoryForm categoryForm = new CategoryForm();
+        model.addAttribute("category", categoryForm);
+
+
+
         return "category/categories-view";
     }
 
@@ -67,6 +75,22 @@ public class CategoryController {
 
         return "redirect:/category/list"; // Redirect to method with mapping /category/list
         //return "categories-view"; // HTML FILE
+    }
+
+    @PostMapping("/add")
+    public String addCategory(@ModelAttribute("category") CategoryForm categoryForm){
+
+        System.out.println("categoryForm = " + categoryForm);
+
+        int randomInt = (int) (Math.random() * 100);
+        LocalDate timeNow = LocalDate.now();
+
+        CategoryView categoryToAdd = new CategoryView(randomInt, categoryForm.getName(), timeNow);
+
+        categoryViewList.add(categoryToAdd);
+
+
+    return "redirect:/category/list";
     }
 
 

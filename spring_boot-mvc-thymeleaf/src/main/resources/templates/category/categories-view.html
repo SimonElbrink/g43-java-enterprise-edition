@@ -51,17 +51,17 @@
                 <div class="card mb-3">
                     <div class="card-body ">
                         <div class="row">
-                            <form>
+                            <form th:action="@{/category/add}" th:object="${category}" method="post">
                                 <div class="col-sm-12 form-group">
                                     <label for="category">Name: </label>
-                                    <input id="category" name="category" type="text" placeholder="Enter a Category Name"
+                                    <input th:field="*{name}" id="category" name="category" type="text" placeholder="Enter a Category Name"
                                            class="form-control"/>
                                     <p class="alert alert-danger visually-hidden"><small>validation message</small></p>
                                 </div>
                                 <hr/>
 
                                 <div class="d-grid gap-1">
-                                    <button type="button" class="btn btn-primary">Add</button>
+                                    <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
                             </form>
 
