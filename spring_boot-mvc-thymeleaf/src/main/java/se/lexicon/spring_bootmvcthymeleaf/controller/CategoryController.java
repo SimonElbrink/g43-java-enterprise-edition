@@ -31,7 +31,6 @@ public class CategoryController {
     public String category(Model model) {
 
         model.addAttribute("categoryViews", categoryViewList);
-        model.addAttribute("categoryListSize", categoryViewList.size());
         return "category/categories-view";
     }
 
