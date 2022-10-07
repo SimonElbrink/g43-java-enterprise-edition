@@ -59,6 +59,17 @@ public class CategoryController {
         return "category/category-view";
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteById( @PathVariable("id") Integer id){
+
+        System.out.println("ID To Delete: "+ id);
+
+        categoryViewList.removeIf(view -> view.getId() == id);
+
+        return "redirect:/category/list"; // Redirect to method with mapping /category/list
+        //return "categories-view"; // HTML FILE
+    }
+
 
 
 }

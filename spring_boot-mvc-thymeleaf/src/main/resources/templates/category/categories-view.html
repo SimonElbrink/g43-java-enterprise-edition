@@ -92,7 +92,7 @@
                                 <td th:text="${categoryView.name}"></td>
                                 <td th:text="${categoryView.createDate}"></td>
                                 <td>
-                                    <a href="#" class="btn btn-danger">Delete</a>
+                                    <a th:href="@{/category/delete/{id} (id=${categoryView.id})}" href="#" class="btn btn-danger">Delete</a>
                                     <a href="#" class="btn btn-warning">Edit</a>
 
                                     <a th:href="@{/category/view/{id} (id=${categoryView.id})}" href="#" class="btn btn-primary">Details</a>
