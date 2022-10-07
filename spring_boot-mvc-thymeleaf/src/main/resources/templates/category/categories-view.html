@@ -99,8 +99,10 @@
                                     <a th:href="@{/category/delete/{id} (id=${categoryView.id})}" href="#" class="btn btn-danger">Delete</a>
                                     <a href="#" class="btn btn-warning">Edit</a>
 
+                                    <!-- Option 1 for View Details -->
                                     <a th:href="@{/category/view/{id} (id=${categoryView.id})}" href="#" class="btn btn-primary">Details</a>
 
+                                    <!-- Option 2 for View Details -->
                                     <form th:action="@{/category/view}" method="post">
                                         <input type="hidden" th:value="${categoryView.id}" th:attr="name='id'">
                                         <button type="submit"  href="#" class="btn btn-primary">
