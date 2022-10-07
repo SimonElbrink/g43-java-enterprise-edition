@@ -87,7 +87,11 @@
 
                             <tbody>
 
-                            <tr th:each="categoryView : ${categoryViews}">
+                            <tr th:if="${categoryViews == null || categoryViews.isEmpty()}" >
+                                <td colspan="4">No Record Available</td>
+                            </tr>
+
+                            <tr th:unless="${categoryViews == null || categoryViews.isEmpty()}" th:each="categoryView : ${categoryViews}">
                                 <td th:text="${categoryView.id}"></td>
                                 <td th:text="${categoryView.name}"></td>
                                 <td th:text="${categoryView.createDate}"></td>
