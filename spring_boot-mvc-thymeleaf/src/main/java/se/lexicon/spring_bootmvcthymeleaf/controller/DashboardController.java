@@ -14,7 +14,7 @@ public class DashboardController {
 
     //http://localhost:8080/dashboard
     @GetMapping
-    public String dashboard(Model model){
+    public String dashboard(Model model) {
 
         LocalDate currentDate = LocalDate.now();
 
