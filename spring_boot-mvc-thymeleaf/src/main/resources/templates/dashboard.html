@@ -33,7 +33,7 @@
                     <i class="fas fa-cog"></i>
                     <span th:text="${#messages.msg('dashboard.header').toUpperCase()}">Dashboard</span>
                 </h1>
-                <span th:text="#{dashboard.date}">Date:</span>
+                <span th:text="#{date}">Date:</span>
                 <span th:text="${#temporals.format(serverDate, 'EEEE d MMMM yyyy')}">2022-09-30</span>
 
             </div>
@@ -51,21 +51,21 @@
             <div class="d-grid col-4">
                 <a href="#" class="btn btn-primary">
                     <i class="fas fa-plus"></i>
-                    <span>Add Product</span>
+                    <span th:text="#{btn.add} + ' ' + #{product}"></span>
                 </a>
             </div>
 
             <div class="d-grid col-4">
                 <a th:href="@{/category/form}" href="#" class="btn btn-success">
                     <i class="fas fa-plus"></i>
-                    <span>Add Category</span>
+                    <span th:text="#{btn.add} + ' ' + #{category}"></span>
                 </a>
             </div>
 
             <div class="d-grid col-4">
                 <a href="#" class="btn btn-warning">
                     <i class="fas fa-plus"></i>
-                    <span>Add User</span>
+                    <span th:text="#{btn.add} + ' ' + #{user}"></span>
                 </a>
             </div>
 
@@ -85,12 +85,12 @@
 
                 <div class="card text-center bg-primary text-white mb-3">
                     <div class="card-body">
-                        <h3>Products</h3>
+                        <h3 th:text="#{product}">Products</h3>
                         <h4 class="display-4">
                             <i class="fas fa-pencil-alt"></i>
                             <span th:text="${productListSize}"></span>
                         </h4>
-                        <a href="#" class="btn btn-outline-light btn-sm stretched-link">View</a>
+                        <a href="#" class="btn btn-outline-light btn-sm stretched-link" th:text="#{dashboard.show-action}">View</a>
                     </div>
                 </div>
 
@@ -100,13 +100,12 @@
 
                 <div class="card text-center bg-success text-white mb-3">
                     <div class="card-body">
-                        <h3>Categories</h3>
+                        <h3 th:text="#{category}">Categories</h3>
                         <h4 class="display-4">
                             <i class="fas fa-folder"></i>
                             <span th:text="${categoryListSize}"></span>
                         </h4>
-                        <a th:href="@{/category/list}" href="#"
-                           class="btn btn-outline-light btn-sm stretched-link">View</a>
+                        <a th:href="@{/category/list}" href="#" class="btn btn-outline-light btn-sm stretched-link" th:text="#{dashboard.show-action}" >View</a>
                     </div>
                 </div>
 
@@ -116,12 +115,12 @@
 
                 <div class="card text-center bg-warning mb-3">
                     <div class="card-body">
-                        <h3>Users</h3>
+                        <h3 th:text="#{user}">Users</h3>
                         <h4 class="display-4">
                             <i class="fas fa-users"></i>
                             <span th:text="${userListSize}"></span>
                         </h4>
-                        <a href="#" class="btn btn-outline-dark btn-sm stretched-link">View</a>
+                        <a href="#" class="btn btn-outline-dark btn-sm stretched-link" th:text="#{dashboard.show-action}">View</a>
                     </div>
                 </div>
 
