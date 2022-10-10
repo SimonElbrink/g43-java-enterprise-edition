@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document Title</title>
+
+  <!-- Resources -->
+  <!-- Fontawesome icon library Resource -->
+  <link rel="stylesheet" th:href="@{/webjars/fortawesome__fontawesome-free/css/all.css}">
+
+  <!-- Bootstrap Webjar Resource -->
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+  <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+  <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</head>
+<body style="min-height: 75rem; padding-top: 4.5rem;">
+
+<!--Start of Navigation Bar-->
+<nav th:insert="fragments/nav :: nav_fragment"></nav>
+<!--End of Navigation Bar-->
+
+<div class="container">
+  <br>
+  <br>
+  <div class="card">
+    <div class="card-header bg-danger text-white">
+      <h2>Opps - Error</h2>
+    </div>
+    <div class="card-body">
+      <br>
+      <p>Custom Error</p>
+      <table class="table table-striped">
+        <tr>
+          <th>Date Time</th>
+          <th>Error Code</th>
+          <th>Error Message</th>
+        </tr>
+        <tr>
+          <td th:text="${error.timestamp}"></td>
+          <td th:text="${error.code}"></td>
+          <td th:text="${error.message}"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+
+<!--Start of Footer-->
+<footer th:insert="fragments/footer :: footer_fragment"></footer>
+<!--End of Footer-->
+
+</body>
+</html>

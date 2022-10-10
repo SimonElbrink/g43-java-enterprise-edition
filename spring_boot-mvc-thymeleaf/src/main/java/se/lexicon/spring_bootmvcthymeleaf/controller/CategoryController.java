@@ -102,7 +102,10 @@ public class CategoryController {
         categoryViewList.add(categoryToAdd);
 
 
-    return "redirect:/category/list";
+//        throw new IllegalArgumentException("Custom Exception");
+
+
+        return "redirect:/category/list";
     }
 
 
