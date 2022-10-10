@@ -56,7 +56,7 @@
                                     <label for="category">Name: </label>
                                     <input th:field="*{name}" id="category" name="category" type="text" placeholder="Enter a Category Name"
                                            class="form-control"/>
-                                    <p class="alert alert-danger visually-hidden"><small>validation message</small></p>
+                                    <p class="mt-1 alert alert-danger text-muted"th:if="${#fields.hasErrors('name')}" th:errors="*{name}">validation message</p>
                                 </div>
                                 <hr/>
 

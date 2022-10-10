@@ -3,10 +3,13 @@ package se.lexicon.spring_bootmvcthymeleaf.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.spring_bootmvcthymeleaf.model.dto.CategoryForm;
 import se.lexicon.spring_bootmvcthymeleaf.model.dto.CategoryView;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,9 +81,18 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public String addCategory(@ModelAttribute("category") CategoryForm categoryForm){
+    public String addCategory(@ModelAttribute("category") @Valid CategoryForm categoryForm, BindingResult bindingResult){
 
         System.out.println("categoryForm = " + categoryForm);
+
+        if (categoryViewList.stream().anyMatch(name -> name.getName().equals(categoryForm.getName()))){
+            FieldError fieldError = new FieldError("category", "name", "Not allowed to have duplicate Categories");
+            bindingResult.addError(fieldError);
+        }
+
+        if (bindingResult.hasErrors()){
+            return "category/category-form"; // Return to creation form with errors attached.
+        }
 
         int randomInt = (int) (Math.random() * 100);
         LocalDate timeNow = LocalDate.now();
