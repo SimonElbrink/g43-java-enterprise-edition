@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.lexicon.spring_bootmvcthymeleaf.model.dto.CategoryForm;
 import se.lexicon.spring_bootmvcthymeleaf.model.dto.CategoryView;
 import se.lexicon.spring_bootmvcthymeleaf.repository.CategoryRepository;
@@ -70,11 +71,20 @@ public class CategoryController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteById(@PathVariable("id") Integer id) {
+    public String deleteById(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 
         System.out.println("ID To Delete: " + id);
 
-        categoryService.deleteById(id);
+        boolean result = categoryService.deleteById(id);
+
+        if (result){
+            redirectAttributes.addFlashAttribute("message", "Category with id: " + id +" was successfully deleted!");
+            redirectAttributes.addFlashAttribute("alertClass", "alert alert-info");
+        }else {
+            System.out.println("was not deleted!");
+            //Display Error message
+        }
+
 
         return "redirect:/category/list"; // Redirect to method with mapping /category/list
         //return "categories-view"; // HTML FILE
@@ -89,7 +99,7 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public String addCategory(@ModelAttribute("category") @Valid CategoryForm categoryForm, BindingResult bindingResult) {
+    public String addCategory(@ModelAttribute("category") @Valid CategoryForm categoryForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         System.out.println("categoryForm = " + categoryForm);
 
@@ -102,7 +112,12 @@ public class CategoryController {
             return "category/category-form"; // Return to creation form with errors attached.
         }
 
+
+
         categoryService.create(categoryForm);
+
+        redirectAttributes.addFlashAttribute("message", "Category " + categoryForm.getName() + " was successfully added!");
+        redirectAttributes.addFlashAttribute("alertClass", "alert alert-success");
 
 
 //        throw new IllegalArgumentException("Custom Exception");
