@@ -11,9 +11,7 @@
 
     <!-- Bootstrap Webjar Resource -->
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
-    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
 
 
 </head>
@@ -56,7 +54,7 @@
                                     <label for="category">Name: </label>
                                     <input th:field="*{name}" id="category" name="category" type="text" placeholder="Enter a Category Name"
                                            class="form-control"/>
-                                    <p class="mt-1 alert alert-danger text-muted"th:if="${#fields.hasErrors('name')}" th:errors="*{name}">validation message</p>
+                                    <p class="mt-1 alert alert-danger text-muted" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">validation message</p>
                                 </div>
                                 <hr/>
 
