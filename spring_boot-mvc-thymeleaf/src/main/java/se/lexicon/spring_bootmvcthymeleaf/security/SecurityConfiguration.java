@@ -18,11 +18,14 @@ public class SecurityConfiguration {
 
         http.
                 authorizeRequests()
-                .antMatchers("/webjars/**", "/images/**", "/css/**").permitAll()
+                .antMatchers("/webjars/**", "/images/**", "/css/**", "/login").permitAll()
                 .anyRequest().authenticated();
 
         http.
-                formLogin();
+                formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/authenticate")
+                .defaultSuccessUrl("/dashboard");
 
         return http.build();
     }
