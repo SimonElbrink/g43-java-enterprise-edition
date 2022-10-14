@@ -45,7 +45,10 @@
         <div class="row">
             <div class="col-lg-9">
 
-                <div th:if="${message}" th:text="${message}" th:class="${alertClass}"></div>
+                <div id="messageAlert" th:if="${message}" th:class="${alertClass}" role="alert">
+                    <span th:text="${message}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
                 <!--Start of Action Section-->
                 <section class="mb-4">
@@ -78,7 +81,7 @@
 
                             </thead>
 
-                            <tbody>
+                            <tbody id="categoryTable">
 
                             <tr th:if="${categoryViews == null || categoryViews.isEmpty()}">
                                 <td colspan="4">No Record Available</td>
@@ -183,6 +186,13 @@
 <!--Start of Footer-->
 <footer th:insert="fragments/footer :: footer_fragment"></footer>
 <!--End of Footer-->
+
+<script>
+    const myAlert = document.getElementById('messageAlert');
+    myAlert.addEventListener('closed.bs.alert', function () {
+        document.getElementById('categoryTable').focus()
+    })
+</script>
 
 </body>
 

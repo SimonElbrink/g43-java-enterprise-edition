@@ -79,7 +79,7 @@ public class CategoryController {
 
         if (result){
             redirectAttributes.addFlashAttribute("message", "Category with id: " + id +" was successfully deleted!");
-            redirectAttributes.addFlashAttribute("alertClass", "alert alert-info");
+            redirectAttributes.addFlashAttribute("alertClass", "alert alert-success alert-dismissible fade show");
         }else {
             System.out.println("was not deleted!");
             //Display Error message
@@ -99,7 +99,7 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public String addCategory(@ModelAttribute("category") @Valid CategoryForm categoryForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String processCategoryForm(@ModelAttribute("category") @Valid CategoryForm categoryForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         System.out.println("categoryForm = " + categoryForm);
 
@@ -117,7 +117,7 @@ public class CategoryController {
         categoryService.create(categoryForm);
 
         redirectAttributes.addFlashAttribute("message", "Category " + categoryForm.getName() + " was successfully added!");
-        redirectAttributes.addFlashAttribute("alertClass", "alert alert-success");
+        redirectAttributes.addFlashAttribute("alertClass", "alert alert-success alert-dismissible fade show");
 
 
 //        throw new IllegalArgumentException("Custom Exception");
