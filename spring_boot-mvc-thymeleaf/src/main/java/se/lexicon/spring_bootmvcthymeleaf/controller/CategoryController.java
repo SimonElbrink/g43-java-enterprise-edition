@@ -61,6 +61,8 @@ public class CategoryController {
         return "category/category-view";
     }
 
+    //http://localhost:8080/category/view?id=1
+    //http://localhost:8080/category/view?id=5
     @PostMapping("/view")
     public String findByIdPost(@RequestParam("id") Integer id, Model model) {
         System.out.println("ID: " + id);
@@ -90,14 +92,18 @@ public class CategoryController {
         //return "categories-view"; // HTML FILE
     }
 
+    // Step 1 for Adding Category
+    //http://localhost:8080/category/form
     @GetMapping("/form")
-    public String categoryForm(Model model) {
+    public String getCategoryForm(Model model) {
         CategoryForm categoryForm = new CategoryForm();
         model.addAttribute("category", categoryForm);
 
         return "category/category-form";
     }
 
+    // Step 2 for Adding Category
+    // POST http://localhost:8080/category/add
     @PostMapping("/add")
     public String processCategoryForm(@ModelAttribute("category") @Valid CategoryForm categoryForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 

@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryView create(CategoryForm categoryForm) {
         //Create Entity
-        Category category = new Category(categoryForm.getName());
+        Category category = categoryConverter.toEntity(categoryForm);
 
         //Save Entity
         Category savedEntity = categoryRepository.save(category);

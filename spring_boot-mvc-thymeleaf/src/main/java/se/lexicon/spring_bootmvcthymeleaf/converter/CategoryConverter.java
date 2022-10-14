@@ -1,15 +1,15 @@
 package se.lexicon.spring_bootmvcthymeleaf.converter;
 
 import org.springframework.stereotype.Component;
+import se.lexicon.spring_bootmvcthymeleaf.model.dto.CategoryForm;
 import se.lexicon.spring_bootmvcthymeleaf.model.dto.CategoryView;
 import se.lexicon.spring_bootmvcthymeleaf.model.entity.Category;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
-public class CategoryConverter implements Converter<Category, CategoryView>{
+public class CategoryConverter implements Converter<Category, CategoryView, CategoryForm> {
 
     @Override
     public CategoryView toView(Category entity) {
@@ -17,24 +17,26 @@ public class CategoryConverter implements Converter<Category, CategoryView>{
     }
 
     @Override
-    public Category toEntity(CategoryView view) {
-        return new Category(view.getId(), view.getName(), view.getCreateDate());
+    public Category toEntity(CategoryForm form) {
+        return new Category(form.getName());
     }
 
     @Override
     public Collection<CategoryView> toViews(Collection<Category> entities) {
 
-        List<CategoryView> categoryViewList = new ArrayList<>();
-        for (Category c: entities) {
-            categoryViewList.add(
-                    toView(c)
-            );
-        }
-        return categoryViewList;
+//        List<CategoryView> categoryViewList = new ArrayList<>();
+//        for (Category c: entities) {
+//            categoryViewList.add(
+//                    toView(c)
+//            );
+//        }
+//        return categoryViewList;
+
+        return entities.stream().map(this::toView).collect(Collectors.toList());
     }
 
     @Override
-    public Collection<Category> toEntities(Collection<CategoryView> views) {
-        return null;
+    public Collection<Category> toEntities(Collection<CategoryForm> forms) {
+        return forms.stream().map(this::toEntity).collect(Collectors.toList());
     }
 }
