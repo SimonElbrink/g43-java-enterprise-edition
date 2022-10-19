@@ -1,4 +1,4 @@
-package se.lexicon.spring_bootrestful_api.dto;
+package se.lexicon.spring_bootrestful_api.model.dto;
 
 
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RoleFormDto {
+public class RoleDto {
 
     private Integer id;
     private String name;

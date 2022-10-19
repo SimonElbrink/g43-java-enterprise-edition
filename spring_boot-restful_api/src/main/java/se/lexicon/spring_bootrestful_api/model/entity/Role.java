@@ -1,4 +1,4 @@
-package se.lexicon.spring_bootrestful_api.entity;
+package se.lexicon.spring_bootrestful_api.model.entity;
 
 import lombok.*;
 
