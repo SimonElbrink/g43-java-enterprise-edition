@@ -1,26 +1,28 @@
 package se.lexicon.spring_bootrestful_api.controller;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.lexicon.spring_bootrestful_api.exception.ResourceNotFoundException;
 import se.lexicon.spring_bootrestful_api.model.dto.RoleDto;
 import se.lexicon.spring_bootrestful_api.model.entity.Role;
 import se.lexicon.spring_bootrestful_api.repository.RoleRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class RoleController {
 
     private final RoleRepository repository;
-
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public RoleController(RoleRepository repository) {
+    public RoleController(RoleRepository repository, ModelMapper modelMapper) {
         this.repository = repository;
+        this.modelMapper = modelMapper;
     }
 
     //GET http://localhost:8080/api/v1/roles/
@@ -29,11 +31,11 @@ public class RoleController {
         System.out.println("###   Get Roles has been executed!   ###");
 
         List<Role> listOfRoles = repository.findAll();
-        List<RoleDto> listOfDto = new ArrayList<>();
-
-        for (Role role : listOfRoles) {
-            listOfDto.add(new RoleDto(role.getId(), role.getName()));
-        }
+        List<RoleDto> listOfDto = modelMapper.map(
+                listOfRoles,
+                new TypeToken<List<RoleDto>>() {
+                }.getType()
+        );
 
 //        return ResponseEntity.status(HttpStatus.OK).body(listOfDto);
 //        return ResponseEntity.status(200).body(listOfDto);
@@ -44,33 +46,26 @@ public class RoleController {
     //GET http://localhost:8080/api/v1/roles/99
     @GetMapping("api/v1/roles/{id}")
     public ResponseEntity<RoleDto> findByRoleId(@PathVariable("id") Integer id) {
-        Optional<Role> foundById = repository.findById(id);
 
-        RoleDto roleDto = new RoleDto(foundById.get().getId(),foundById.get().getName());
+        if (id == null) throw new IllegalArgumentException("Id was null");
 
-//        if (foundById.isPresent()){
-//            return ResponseEntity.ok(roleDto);
-//        }else {
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//        }
+        Role foundById = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Role data not Found")
+        );
 
-        return ResponseEntity.ok(roleDto);
-
+        return ResponseEntity.ok(modelMapper.map(foundById, RoleDto.class));
     }
 
     //GET http://localhost:8080/api/v1/roles/search?name=ADMIN
     @GetMapping("api/v1/roles/search")
     public ResponseEntity<RoleDto> findByRoleName(@RequestParam("name") String name) {
-        Optional<Role> foundByName = repository.findByName(name);
+        if (name == null) throw new IllegalArgumentException("name was null");
 
-        RoleDto roleDto = new RoleDto(foundByName.get().getId(),foundByName.get().getName());
+        Role foundByName = repository.findByName(name).orElseThrow(
+                () -> new ResourceNotFoundException("Role data not found")
+        );
 
-//        if (foundByName.isPresent()){
-//            return ResponseEntity.ok(foundByName.get());
-//        }else {
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//        }
-        return ResponseEntity.ok(roleDto);
+        return ResponseEntity.ok(modelMapper.map(foundByName, RoleDto.class));
     }
 
     /*
@@ -82,13 +77,14 @@ public class RoleController {
         }
     */
     @PostMapping("/api/v1/roles")
-    public ResponseEntity<Role> create(@RequestBody RoleDto roleForm) {
+    public ResponseEntity<RoleDto> create(@RequestBody RoleDto roleForm) {
         System.out.println("###### In Create method");
 
-        Role role = new Role(roleForm.getId(), roleForm.getName());
+        Role toEntity = modelMapper.map(roleForm, Role.class);
+        Role savedRole = repository.save(toEntity);
+        RoleDto toDto = modelMapper.map(savedRole, RoleDto.class);
 
-        Role savedRole = repository.save(role);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedRole);
+        return ResponseEntity.status(HttpStatus.CREATED).body(toDto);
     }
 
     /*
@@ -107,7 +103,7 @@ public class RoleController {
         System.out.println("roleForm = " + roleForm);
 
         if (id.equals(roleForm.getId())) {
-            Role role = new Role(roleForm.getId(), roleForm.getName());
+            Role role = modelMapper.map(roleForm, Role.class);
             repository.save(role);
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
