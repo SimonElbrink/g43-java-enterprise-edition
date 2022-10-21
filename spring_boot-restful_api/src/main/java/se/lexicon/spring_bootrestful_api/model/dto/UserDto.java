@@ -14,6 +14,6 @@ public class UserDto {
     private String username; //martinchilling
     private String password; //12345
     private boolean expired; //false
-    private List<String> roles; //[ {"id": 1,"name": "GUEST"} , {"id": 3,"name": "ADMIN"} ];
+    private List<RoleDto> roles; //[ {"id": 1,"name": "GUEST"} , {"id": 3,"name": "ADMIN"} ];
 
 }
