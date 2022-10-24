@@ -32,10 +32,10 @@ public class UserServiceImpl implements UserService {
         //TODO
         //Check if the input data is
         if (dto == null) throw new IllegalArgumentException("User DTO Was Null");
-        if (dto.getUsername() == null) throw new IllegalArgumentException("Username can not be Null");
-        if (dto.getPassword() == null) throw new IllegalArgumentException("Password can not be Null");
-        if (dto.isExpired()) throw new IllegalArgumentException("Expired must be a false or null");
-        if (dto.getRoles() == null || dto.getRoles().size() == 0) throw new IllegalArgumentException("No Roles found");
+//        if (dto.getUsername() == null) throw new IllegalArgumentException("Username can not be Null");
+//        if (dto.getPassword() == null) throw new IllegalArgumentException("Password can not be Null");
+//        if (dto.isExpired()) throw new IllegalArgumentException("Expired must be a false or null");
+//        if (dto.getRoles() == null || dto.getRoles().size() == 0) throw new IllegalArgumentException("No Roles found");
         //Check if the username is a duplicate
         if (userRepository.existsByUsername(dto.getUsername()))
             throw new ResourceDuplicateException("Username is already in use");
