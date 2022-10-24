@@ -1,5 +1,6 @@
 package se.lexicon.spring_bootrestful_api.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,8 +9,30 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
 
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> illegalArgumentException(IllegalArgumentException ex){
+        APIError apiError = new APIError(
+                HttpStatus.BAD_REQUEST.value(), // 400
+                HttpStatus.BAD_REQUEST.name(), // BAD_REQUEST
+                ex.getMessage() // some message from where the exception was thrown
+        );
+        System.out.println("apiError.getTimestamp() = " + apiError.getTimestamp());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> resourceNotFoundException(ResourceNotFoundException ex){
+        return ResponseEntity.status(400).body(new APIError(400,"BAD_REQUEST", ex.getMessage()));
+    }
+
+    @ExceptionHandler(ResourceDuplicateException.class)
+    public ResponseEntity<Object> resourceDuplicateException(ResourceDuplicateException ex){
+        return ResponseEntity.status(400).body(new APIError(400,"BAD_REQUEST", ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> globalException(Exception ex) {
+    public ResponseEntity<Object> globalException(Exception ex){
         System.out.println("Global Exception------------------------");
         System.out.println(ex.getMessage());
         ex.printStackTrace();

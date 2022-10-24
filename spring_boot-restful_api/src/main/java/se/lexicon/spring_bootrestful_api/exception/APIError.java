@@ -20,6 +20,13 @@ public class APIError {
         this.timestamp = LocalDateTime.now();
     }
 
+    public APIError(Integer statusCode, String statusText, String message) {
+        this();
+        this.statusCode = statusCode;
+        this.statusText = statusText;
+        this.message = message;
+    }
+
     public APIError(Integer statusCode, String statusText) {
         this();
         this.statusCode = statusCode;
