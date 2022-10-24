@@ -4,10 +4,11 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.lexicon.spring_bootrestful_api.exception.ResourceNotFoundException;
 import se.lexicon.spring_bootrestful_api.model.dto.CustomUserDto;
 import se.lexicon.spring_bootrestful_api.model.dto.UserDto;
 import se.lexicon.spring_bootrestful_api.service.UserService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> register(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> register(@Valid @RequestBody UserDto userDto) {
 
         System.out.println("userDto = " + userDto);
 
