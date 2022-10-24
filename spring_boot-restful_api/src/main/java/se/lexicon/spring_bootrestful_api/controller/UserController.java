@@ -4,6 +4,7 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.lexicon.spring_bootrestful_api.exception.ResourceNotFoundException;
 import se.lexicon.spring_bootrestful_api.model.dto.CustomUserDto;
 import se.lexicon.spring_bootrestful_api.model.dto.UserDto;
 import se.lexicon.spring_bootrestful_api.service.UserService;
@@ -21,12 +22,21 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto){
 
-        System.out.println(userDto);
+        System.out.println("userDto = " + userDto);
 
-        userService.register(userDto);
+        //If any Exception - ExceptionHandler takes care of it. Hopefully..
+        UserDto result = userService.register(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        //Manually Catching the Exception
+//        UserDto result = null;
+//        try{
+//            result = userService.register(userDto);
+//            return ResponseEntity.status(HttpStatus.CREATED).body(result);
+//        }catch (ResourceNotFoundException ex){
+//            ex.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
     }
 
     @GetMapping("/{username}")
