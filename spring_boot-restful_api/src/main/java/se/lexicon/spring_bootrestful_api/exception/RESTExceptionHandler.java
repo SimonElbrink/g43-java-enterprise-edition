@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import static org.springframework.http.HttpStatus.*;
+
 @ControllerAdvice
 public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -13,22 +15,22 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> illegalArgumentException(IllegalArgumentException ex){
         APIError apiError = new APIError(
-                HttpStatus.BAD_REQUEST.value(), // 400
-                HttpStatus.BAD_REQUEST.name(), // BAD_REQUEST
+                BAD_REQUEST.value(), // 400
+                BAD_REQUEST.name(), // BAD_REQUEST
                 ex.getMessage() // some message from where the exception was thrown
         );
         System.out.println("apiError.getTimestamp() = " + apiError.getTimestamp());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+        return ResponseEntity.status(BAD_REQUEST).body(apiError);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> resourceNotFoundException(ResourceNotFoundException ex){
-        return ResponseEntity.status(400).body(new APIError(400,"BAD_REQUEST", ex.getMessage()));
+        return ResponseEntity.status(BAD_REQUEST).body(new APIError(BAD_REQUEST.value(), BAD_REQUEST.name(), ex.getMessage()));
     }
 
     @ExceptionHandler(ResourceDuplicateException.class)
     public ResponseEntity<Object> resourceDuplicateException(ResourceDuplicateException ex){
-        return ResponseEntity.status(400).body(new APIError(400,"BAD_REQUEST", ex.getMessage()));
+        return ResponseEntity.status(BAD_REQUEST).body(new APIError(BAD_REQUEST.value(), BAD_REQUEST.name(), ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
