@@ -3,6 +3,7 @@ package se.lexicon.spring_bootrestful_api.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.lexicon.spring_bootrestful_api.exception.ResourceDuplicateException;
 import se.lexicon.spring_bootrestful_api.exception.ResourceNotFoundException;
 import se.lexicon.spring_bootrestful_api.model.dto.CustomUserDto;
 import se.lexicon.spring_bootrestful_api.model.dto.RoleDto;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
         if (dto.getRoles() == null || dto.getRoles().size() == 0) throw new IllegalArgumentException("No Roles found");
         //Check if the username is a duplicate
         if (userRepository.existsByUsername(dto.getUsername()))
-            throw new IllegalArgumentException("Username is already in use");
+            throw new ResourceDuplicateException("Username is already in use");
         //Check if Roles are valid Roles
         for (RoleDto roleDto : dto.getRoles()) {
             roleRepository.findById(roleDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Role ID Was not Valid"));
